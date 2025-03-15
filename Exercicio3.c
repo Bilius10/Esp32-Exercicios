@@ -1,47 +1,28 @@
 #include <WiFi.h>
 #include <ESPping.h>
-#include <LiquidCrystal_I2C.h>
-
-#define led 25
 
 char ssid[] = "Wokwi-GUEST";
 char pass[] = "";
-
-LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void setup() {
   Serial.begin(9600);
   WiFi.begin(ssid, pass);
 
-  Wire.begin(32, 33);
-  lcd.init();
-  lcd.backlight();
-
-  pinMode(led, OUTPUT);
-
   while (WiFi.status() != WL_CONNECTED) {
-    digitalWrite(led, HIGH);
     delay(500);
-    digitalWrite(led, LOW);
-    delay(500);
+    Serial.print(".");
   }
 
-  Serial.println("Conectado ao WiFi");
-}
-
-void tela(String palavra) {
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(palavra);
+  Serial.println("\nConectado ao WiFi");
 }
 
 void loop() {
-  bool ret = Ping.ping("www.google.com");
+  int ret = Ping.ping("www.google.com");
 
-  if (ret) {
-    tela("Google online");
+  if (ret > 0) {
+    Serial.printf("Response time: %d/%.2f/%d ms\n", Ping.minTime(), Ping.averageTime(), Ping.maxTime());
   } else {
-    tela("Google offline");
+    Serial.println("Erro");
   }
 
   delay(2000);
