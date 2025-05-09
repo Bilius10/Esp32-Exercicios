@@ -1,0 +1,89 @@
+#define LED1 26
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(115200);
+  
+
+  pinMode(LED1, OUTPUT);
+}
+
+void converterParaLista(String frase){
+
+  char lista[100];
+  frase.toCharArray(lista, sizeof(lista));
+
+  for (int i = 0; lista[i] != '\0'; i++) {
+    converterParaBinarioPiscarLuz(lista[i]);
+  }
+  
+}
+
+void ponto() {
+  digitalWrite(LED1, HIGH);
+  delay(200);
+  digitalWrite(LED1, LOW);
+  delay(200);
+}
+
+void traco() {
+  digitalWrite(LED1, HIGH);
+  delay(600);
+  digitalWrite(LED1, LOW);
+  delay(200);
+}
+
+void converterParaBinarioPiscarLuz(char letra){
+  switch (tolower(letra)) {
+    case 'a': ponto(); traco(); break;
+    case 'b': traco(); ponto(); ponto(); ponto(); break;
+    case 'c': traco(); ponto(); traco(); ponto(); break;
+    case 'd': traco(); ponto(); ponto(); break;
+    case 'e': ponto(); break;
+    case 'f': ponto(); ponto(); traco(); ponto(); break;
+    case 'g': traco(); traco(); ponto(); break;
+    case 'h': ponto(); ponto(); ponto(); ponto(); break;
+    case 'i': ponto(); ponto(); break;
+    case 'j': ponto(); traco(); traco(); traco(); break;
+    case 'k': traco(); ponto(); traco(); break;
+    case 'l': ponto(); traco(); ponto(); ponto(); break;
+    case 'm': traco(); traco(); break;
+    case 'n': traco(); ponto(); break;
+    case 'o': traco(); traco(); traco(); break;
+    case 'p': ponto(); traco(); traco(); ponto(); break;
+    case 'q': traco(); traco(); ponto(); traco(); break;
+    case 'r': ponto(); traco(); ponto(); break;
+    case 's': ponto(); ponto(); ponto(); break;
+    case 't': traco(); break;
+    case 'u': ponto(); ponto(); traco(); break;
+    case 'v': ponto(); ponto(); ponto(); traco(); break;
+    case 'w': ponto(); traco(); traco(); break;
+    case 'x': traco(); ponto(); ponto(); traco(); break;
+    case 'y': traco(); ponto(); traco(); traco(); break;
+    case 'z': traco(); traco(); ponto(); ponto(); break;
+
+    case '0': traco(); traco(); traco(); traco(); traco(); break;
+    case '1': ponto(); traco(); traco(); traco(); traco(); break;
+    case '2': ponto(); ponto(); traco(); traco(); traco(); break;
+    case '3': ponto(); ponto(); ponto(); traco(); traco(); break;
+    case '4': ponto(); ponto(); ponto(); ponto(); traco(); break;
+    case '5': ponto(); ponto(); ponto(); ponto(); ponto(); break;
+    case '6': traco(); ponto(); ponto(); ponto(); ponto(); break;
+    case '7': traco(); traco(); ponto(); ponto(); ponto(); break;
+    case '8': traco(); traco(); traco(); ponto(); ponto(); break;
+    case '9': traco(); traco(); traco(); traco(); ponto(); break;
+
+    case ',': traco(); traco(); ponto(); ponto(); traco(); traco(); break;
+    case '?': ponto(); ponto(); traco(); traco(); ponto(); ponto(); break;
+
+    case ' ': delay(1400); break;  // espaço entre palavras
+  }
+}
+
+void loop() {
+
+  Serial.println("Digite uma frase: ");
+  String frase = Serial.readStringUntil('\n');  
+
+  converterParaLista(frase);
+}
